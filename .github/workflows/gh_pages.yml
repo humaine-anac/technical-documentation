@@ -1,0 +1,38 @@
+name: Deploy to GH Pages
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Create Build Directory
+      run: mkdir build
+
+    - name: Copy images
+      run: cp *.jpg build/
+
+    - uses: docker://pandoc/core:2.9
+      with:
+        args: "-t html -o build/index.html technical-documentation.md"
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
