@@ -1,3 +1,7 @@
+---
+title: HUMAINE Technical Documentation
+---
+
 ## HUMAINE Technical Documentation
 
 ### Introduction

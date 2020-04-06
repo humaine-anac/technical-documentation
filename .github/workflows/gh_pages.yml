@@ -28,7 +28,7 @@ jobs:
 
     - uses: docker://pandoc/core:2.9
       with:
-        args: "-t html -o build/index.html technical-documentation.md"
+        args: "-t html -o build/index.html --template template.html --toc -s technical-documentation.md"
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
