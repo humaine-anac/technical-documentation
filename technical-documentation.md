@@ -134,9 +134,9 @@ Whenever it is ready, the agent may submit its negotiation action by calling the
 
 Finally, when the system receives the seller agent&#39;s bid, it applies a set of turn-taking rules to determine whether the message abides by those rules. These rules are described in detail in Appendix B. If a proposed message is allowed, the system forwards it to the software that causes the avatar to speak and act, and it also forwards the message to the other agent and the human buyer assistant UI. If the proposed message is not allowed, the system informs that agent that its message has been rejected, so that it can take this into account going forward. While the system prevents illegal messages from flowing, it behooves agent developers to endow their agent with an understanding of these rules, so that it can take them into account properly in its strategy.
 
-Buyers or sellers may make offers or counteroffers, or accept bids, or reject bids. The buyer assistant includes a button that allows the buyer to confirm an offer that has been accepted by either the buyer or the seller.
+Buyers or sellers may make offers or counteroffers, or accept bids, or reject bids. The buyer assistant includes a button that allows the buyer to confirm an offer that has been accepted by either the buyer or the seller. 
 
-Once a bid has been accepted, the buyer may continue to initiate negotiation for additional goods in an effort to add to the collection of raw goods from which they will make their baked goods. Negotiation activity may continue until either the round has ended or the buyer has fully exhausted their budget.
+Once a bid has been accepted, the buyer may continue to initiate negotiation for additional goods in an effort to add to the collection of raw goods from which they will make their baked goods. Negotiation activity may continue until either the round has ended or the buyer has fully exhausted their budget. The other seller, on the other hand, is not allowed to negotiate at this phase.
 
 ## Post bidding phase
 
