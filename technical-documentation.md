@@ -2,11 +2,9 @@
 title: HUMAINE Technical Documentation
 ---
 
-## HUMAINE Technical Documentation
+# Introduction
 
-### Introduction
-
-HUMAINE (HUman Multi-Agent Immersive NEgotiation) is a new ANAC (Automated Negotiating Agents Competition) league that will premiere at the International Joint Conference on Artificial Intelligence in Yokohama, Japan in July 2020.
+__HUMAINE (HUman Multi-Agent Immersive NEgotiation)__ is a new ANAC ([Automated Negotiating Agents Competition](http://web.tuat.ac.jp/~katfuji/ANAC2020/)) league that will premiere at the International Joint Conference on Artificial Intelligence in Yokohama, Japan in July 2020.
 
 In this competition, a human buyer wishes to purchase various ingredients from which cakes and pancakes can be made and negotiates with two competing seller agents to obtain them. The action takes place in an immersive environment, in which the agents are rendered as avatars on a display, and the human interacts with them by speaking (in English) and looking at the one with whom they wish to negotiate. The negotiation platform uses a speech-to-text service to render the audio into text and a head-pose estimation system to infer the addressee and passes that information to each agent. Each agent must detect the intent of the utterance, select an appropriate negotiation act (such as a counteroffer, an acceptance, or a rejection) in light of the intent of the utterance and any other relevant context, and determine how best to render that act into an utterance and an accompanying gesture. Upon receiving this message from the agent and checking it for compliance with competition rules, the platform causes the avatar to behave and speak as specified by the agent. The winning agent is the one that best maximizes its utility across multiple rounds of negotiation with various humans and other agents.
 
@@ -16,7 +14,7 @@ An example interaction video can be found here:
 
 The remainder of this document provides detailed information about the tournament, how individual negotiation rounds are conducted, the negotiation platform architecture and how the negotiating agents fit into it, and information about how to build and test your own negotiating agent in preparation for the competition. Appendices A, B, and C provide additional information that agent developers will find useful, regarding utility functions, turn-taking rules, and API details with pointers to sample code, respectively. Human participants will find Appendix D useful as a stand-alone guide to haggling with agents, while tournament masters will find useful information in Appendix E regarding how to administer the tournament.
 
-### 1. Tournament overview
+# 1. Tournament overview
 
 The competition's winner agent is determined by accumulating its utility across a set of 5- or 10-minute rounds during which it interacts with different humans and other competing agents in different rounds, i.e., the two competitive agents interact with one human at a time. An agent's utility is its profit -- the difference between the price for which it sells ingredients and those ingredients' production cost (which is generated randomly for each round). Human buyers are also awarded according to profit. They have a utility function that represents the price for which they will be able to sell the cakes and pancakes they choose to make from the ingredients they have purchased. Like the sellers agents, they are rewarded according to their ability to maximize their utility (profit) during the competition. Humans are thus incentivized to drive as hard a bargain as possible, without running the risk of failing to reach an agreement with at least one agent.
 
@@ -26,7 +24,7 @@ The tournament will be conducted in two stages: pool play and championship play.
 
 Winning agents will receive cash prizes, and winning humans will have their names announced at the conference. A prize will also be awarded to an agent that is judged to be most socially adept or engaging (regardless of its accumulated utility).
 
-### 2. Architecture
+# 2. Architecture
 
 Figure 1 provides a high-level view of HUMAINE&#39;s multi-modal multi-agent negotiation platform architecture:
 
@@ -47,7 +45,7 @@ A Competition Manager manages the competition as a whole by calling the Utility 
 The Human Assistant service is a tool that human negotiators can use to aid them in deciding what offers to make, and how to allocate their purchased goods into cakes and pancakes when the negotiation phase of the round is complete.
 
 
-### 3. Negotiation round details
+# 3. Negotiation round details
 
 ## Overview of a round
 
@@ -144,7 +142,7 @@ When a round ends, the human buyer is given 2 minutes to decide how to allocate 
 
 Once the human buyer submits their allocation, the seller agent&#39;s utilities and the human buyer&#39;s utility are computed for that round, and added to each player&#39;s tournament totals.
 
-### 4. Building and Testing Your Own HUMAINE Agent
+# 4. Building and Testing Your Own HUMAINE Agent
 
 ## Building your agent
 
@@ -234,7 +232,7 @@ In the near future, it will be possible to use the chat UI to simulate another s
 
 
 
-### Appendix A: Utility functions
+# Appendix A: Utility functions
 
 ## Agent utility function (Seller)
 
@@ -309,7 +307,7 @@ These parameters are all drawn from uniform distributions, with minimum and maxi
 | Upb\_min | Min. extra value added to pancake batch by adding the min. allowed amount of blueberry | [2, 4] |   |
 | Upb\_max | Max. extra value added to pancake batch by adding the max. allowed amount of blueberry | [4, 8] |   |
 
-### Appendix B: Interaction and Turn-Taking Rules
+# Appendix B: Interaction and Turn-Taking Rules
 
 Here are the interaction rules that are enforced by the system (specifically, the environment orchestrator). These rules determine whether or not a message sent by a given party is blocked, or broadcast to the other agents in the system (and to the human, by rendering the message through the avatar). Aspects of the rules that depend on absolute or relative timing make use of a timestamp that is assigned to each message at the moment it is received by the environment orchestrator’s /relayMessage API.
 
@@ -391,7 +389,7 @@ Agent A1’s message would be blocked according to rule R4, as it exceeds the 10
 
 While we do not require that developers build these rules into their agents, we strongly advise developers to design agents with an awareness of these rules so as to avoid unanticipated message rejections during the competition.
 
-### Appendix C: Sample Code and API details
+# Appendix C: Sample Code and API details
 
 Sample code with detailed READMEs can be found here: [https://github.com/humaine-anac/](https://github.com/humaine-anac/)
 
@@ -677,7 +675,7 @@ You will receive an acknowledgment back, of the form:
 
 The allResponses portion of the JSON summarizes responses from the other entities to whom the message has been relayed; there is little harm in ignoring this information.
 
-### Appendix D: Guide for Human Negotiators
+# Appendix D: Guide for Human Negotiators
 
 The following guide is designed for humans who participate in the HUMAINE competition as buyers.
 
@@ -756,7 +754,7 @@ When the active negotiation phase has ended, a Post-Round countdown will start, 
 
 When you are satisfied with your allocation, click on Save to let the system know how you want to allocate your goods. This information will be used to calculate your profit. Make sure that you save your allocation before the timer gets to zero; otherwise you will receive no credit for the goods you have purchased. You can click the Save button multiple times; only the last Save before the Post-Round phase has expired will count.
 
-### Appendix E: Competition Manager
+# Appendix E: Competition Manager
 
 The competition manager is used to run multiple rounds of the competition. Agent developers will not interact with it directly, as all of their messages will be exchanged with a service called the environment orchestrator. Nonetheless, we include a brief description of the Competition Manager for the sake of completeness.
 
@@ -769,5 +767,5 @@ Here is the UI that allows the tournament master to identify the contestants:
 Here is the UI that allows the tournament master to see which agent will use which utility function in which round:
 
  ![FigE2](FigE1.jpg)
-#
- Of course, ng may be 0 for one or more goods.
+
+Of course, n_g may be 0 for one or more goods.
