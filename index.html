@@ -31,46 +31,43 @@
     <div class='sidebar'>
         <nav id="TOC" role="doc-toc">
                 <ul>
-                <li><a href="#humaine-technical-documentation">HUMAINE Technical Documentation</a>
-                <ul>
                 <li><a href="#introduction">Introduction</a></li>
                 <li><a href="#tournament-overview">1. Tournament overview</a></li>
                 <li><a href="#architecture">2. Architecture</a></li>
-                <li><a href="#negotiation-round-details">3. Negotiation round details</a></li>
-                </ul></li>
+                <li><a href="#negotiation-round-details">3. Negotiation round details</a>
+                <ul>
                 <li><a href="#overview-of-a-round">Overview of a round</a></li>
                 <li><a href="#prior-to-the-round">Prior to the round</a></li>
                 <li><a href="#during-the-round">During the round</a></li>
-                <li><a href="#post-bidding-phase">Post bidding phase</a>
-                <ul>
-                <li><a href="#building-and-testing-your-own-humaine-agent">4. Building and Testing Your Own HUMAINE Agent</a></li>
+                <li><a href="#post-bidding-phase">Post bidding phase</a></li>
                 </ul></li>
+                <li><a href="#building-and-testing-your-own-humaine-agent">4. Building and Testing Your Own HUMAINE Agent</a>
+                <ul>
                 <li><a href="#building-your-agent">Building your agent</a></li>
-                <li><a href="#testing-your-agent">Testing your agent</a>
-                <ul>
-                <li><a href="#appendix-a-utility-functions">Appendix A: Utility functions</a></li>
+                <li><a href="#testing-your-agent">Testing your agent</a></li>
                 </ul></li>
+                <li><a href="#appendix-a-utility-functions">Appendix A: Utility functions</a>
+                <ul>
                 <li><a href="#agent-utility-function-seller">Agent utility function (Seller)</a></li>
-                <li><a href="#human-utility-function-buyer">Human utility function (Buyer)</a>
-                <ul>
-                <li><a href="#appendix-b-interaction-and-turn-taking-rules">Appendix B: Interaction and Turn-Taking Rules</a></li>
-                <li><a href="#appendix-c-sample-code-and-api-details">Appendix C: Sample Code and API details</a></li>
+                <li><a href="#human-utility-function-buyer">Human utility function (Buyer)</a></li>
                 </ul></li>
+                <li><a href="#appendix-b-interaction-and-turn-taking-rules">Appendix B: Interaction and Turn-Taking Rules</a></li>
+                <li><a href="#appendix-c-sample-code-and-api-details">Appendix C: Sample Code and API details</a>
+                <ul>
                 <li><a href="#post-setutility">POST /setUtility</a></li>
                 <li><a href="#post-startround">POST /startRound</a></li>
                 <li><a href="#post-endround">POST /endRound</a></li>
                 <li><a href="#post-receivemessage">POST /receiveMessage</a></li>
                 <li><a href="#post-receiverejection">POST /receiveRejection</a></li>
-                <li><a href="#sending-a-message-to-the-environment-orchestrator">Sending a message to the Environment Orchestrator</a>
-                <ul>
-                <li><a href="#appendix-d-guide-for-human-negotiators">Appendix D: Guide for Human Negotiators</a></li>
+                <li><a href="#sending-a-message-to-the-environment-orchestrator">Sending a message to the Environment Orchestrator</a></li>
                 </ul></li>
+                <li><a href="#appendix-d-guide-for-human-negotiators">Appendix D: Guide for Human Negotiators</a>
+                <ul>
                 <li><a href="#introduction-1">Introduction</a></li>
                 <li><a href="#recipes">Recipes</a></li>
-                <li><a href="#a-guide-to-haggling-with-agents">A Guide to Haggling with Agents</a>
-                <ul>
-                <li><a href="#appendix-e-competition-manager">Appendix E: Competition Manager</a></li>
+                <li><a href="#a-guide-to-haggling-with-agents">A Guide to Haggling with Agents</a></li>
                 </ul></li>
+                <li><a href="#appendix-e-competition-manager">Appendix E: Competition Manager</a></li>
                 </ul>
         </nav>
     </div>
@@ -78,19 +75,18 @@
             <header id="title-block-header">
         <h1 class="title">HUMAINE Technical Documentation</h1>
                                 </header>
-        <h2 id="humaine-technical-documentation">HUMAINE Technical Documentation</h2>
-        <h3 id="introduction">Introduction</h3>
-        <p>HUMAINE (HUman Multi-Agent Immersive NEgotiation) is a new ANAC (Automated Negotiating Agents Competition) league that will premiere at the International Joint Conference on Artificial Intelligence in Yokohama, Japan in July 2020.</p>
+        <h1 id="introduction">Introduction</h1>
+        <p><strong>HUMAINE (HUman Multi-Agent Immersive NEgotiation)</strong> is a new ANAC (<a href="http://web.tuat.ac.jp/~katfuji/ANAC2020/">Automated Negotiating Agents Competition</a>) league that will premiere at the International Joint Conference on Artificial Intelligence in Yokohama, Japan in July 2020.</p>
         <p>In this competition, a human buyer wishes to purchase various ingredients from which cakes and pancakes can be made and negotiates with two competing seller agents to obtain them. The action takes place in an immersive environment, in which the agents are rendered as avatars on a display, and the human interacts with them by speaking (in English) and looking at the one with whom they wish to negotiate. The negotiation platform uses a speech-to-text service to render the audio into text and a head-pose estimation system to infer the addressee and passes that information to each agent. Each agent must detect the intent of the utterance, select an appropriate negotiation act (such as a counteroffer, an acceptance, or a rejection) in light of the intent of the utterance and any other relevant context, and determine how best to render that act into an utterance and an accompanying gesture. Upon receiving this message from the agent and checking it for compliance with competition rules, the platform causes the avatar to behave and speak as specified by the agent. The winning agent is the one that best maximizes its utility across multiple rounds of negotiation with various humans and other agents.</p>
         <p>An example interaction video can be found here:</p>
         <p><a href="https://www.youtube.com/watch?v=KBV9z9fLAD0&amp;feature=emb_title">https://www.youtube.com/watch?v=KBV9z9fLAD0&amp;feature=emb_title</a></p>
         <p>The remainder of this document provides detailed information about the tournament, how individual negotiation rounds are conducted, the negotiation platform architecture and how the negotiating agents fit into it, and information about how to build and test your own negotiating agent in preparation for the competition. Appendices A, B, and C provide additional information that agent developers will find useful, regarding utility functions, turn-taking rules, and API details with pointers to sample code, respectively. Human participants will find Appendix D useful as a stand-alone guide to haggling with agents, while tournament masters will find useful information in Appendix E regarding how to administer the tournament.</p>
-        <h3 id="tournament-overview">1. Tournament overview</h3>
+        <h1 id="tournament-overview">1. Tournament overview</h1>
         <p>The competition’s winner agent is determined by accumulating its utility across a set of 5- or 10-minute rounds during which it interacts with different humans and other competing agents in different rounds, i.e., the two competitive agents interact with one human at a time. An agent’s utility is its profit – the difference between the price for which it sells ingredients and those ingredients’ production cost (which is generated randomly for each round). Human buyers are also awarded according to profit. They have a utility function that represents the price for which they will be able to sell the cakes and pancakes they choose to make from the ingredients they have purchased. Like the sellers agents, they are rewarded according to their ability to maximize their utility (profit) during the competition. Humans are thus incentivized to drive as hard a bargain as possible, without running the risk of failing to reach an agreement with at least one agent.</p>
         <p>Although the agent winner is determined by accumulated utility, the fact that the contest involves humans suggests that the most effective agents will be those that combine algorithmic prowess with social skills (e.g.. being fun, pleasant, or subtly manipulative), which requires sophisticated dialogues or agents' utterances responses.</p>
         <p>The tournament will be conducted in two stages: pool play and championship play. During pool play, the contestants will be divided into two or more pools. If the number of agents is not even, then an additional dummy agent will be supplied by the organizers to fill out one of the pools so that they each contain the same number. Within each pool, each player will play each of the other players for exactly two rounds, to be scheduled randomly so that the identity of their opponent will not be known to the agents. After pool play is complete, one or two agents with the highest accumulated utility in each pool will move on to the championship round, which will consist of longer multi-round matches against opponents in semi-finals and finals.</p>
         <p>Winning agents will receive cash prizes, and winning humans will have their names announced at the conference. A prize will also be awarded to an agent that is judged to be most socially adept or engaging (regardless of its accumulated utility).</p>
-        <h3 id="architecture">2. Architecture</h3>
+        <h1 id="architecture">2. Architecture</h1>
         <p>Figure 1 provides a high-level view of HUMAINE's multi-modal multi-agent negotiation platform architecture:</p>
         <figure>
         <img src="Fig1.jpg" alt="" /><figcaption>Fig1</figcaption>
@@ -102,7 +98,7 @@
         <p>The Environment Orchestrator decides whether to permit the relayed message to be broadcasted to the rest of the system. If the decision is to permit the message to be forwarded, the Environment Orchestrator calls the /receiveMessage API on all agents, just as the Rich Transcript worker does for messages generated by the human negotiator. It also calls the /receiveMessage API of an Avatar Controller located within the environment, which in turn delegates displaying the avatar and playing synthesized speech to a Display worker and a Speaker worker, respectively.</p>
         <p>A Competition Manager manages the competition as a whole by calling the Utility service to generate utility functions for the agents and humans in the system, storing them, and permuting them across different rounds to achieve fairness for agents and humans. A human administrator may use the Competition Manager to send a signal to the Environment Orchestrator signifying that a round is to start.</p>
         <p>The Human Assistant service is a tool that human negotiators can use to aid them in deciding what offers to make, and how to allocate their purchased goods into cakes and pancakes when the negotiation phase of the round is complete.</p>
-        <h3 id="negotiation-round-details">3. Negotiation round details</h3>
+        <h1 id="negotiation-round-details">3. Negotiation round details</h1>
         <h2 id="overview-of-a-round">Overview of a round</h2>
         <p>There are three players in each round: two seller agents and a human buyer. Each player strives to maximize their utility during each round. Sellers strive to sell goods for a price as far above their unit cost as possible, while buyers seek to use a budget given to them at the beginning of the round to buy goods from which they can make the most valuable set of cakes or pancakes that they're able to make from their purchases. In order to maximize the number cakes and/or pancakes that they can make, buyers have an incentive to maximize the number of goods they can purchase, and thus they must try to purchase goods as cheaply as they can.</p>
         <p>The seller's utility function is expressed in terms of a unit cost c_g for each of several different goods g that it can offer to the buyer. The set of goods is as follows:</p>
@@ -171,7 +167,7 @@
         <h2 id="post-bidding-phase">Post bidding phase</h2>
         <p>When a round ends, the human buyer is given 2 minutes to decide how to allocate their purchased goods into cakes and pancakes, possibly with additional flavorings. They must be able to make an integer number of cakes or pancake batches; extra leftover ingredients that are not enough to make another cake or pancake batch will be worth nothing. For example, if the human has enough to bake 3 cakes with one egg left over, that one egg would be worth nothing. The buyer assistant tool provides a calculator that helps the buyer determine the overall value of any given allocation. When the buyer is ready, they press the “Submit Allocation” button.</p>
         <p>Once the human buyer submits their allocation, the seller agent's utilities and the human buyer's utility are computed for that round, and added to each player's tournament totals.</p>
-        <h3 id="building-and-testing-your-own-humaine-agent">4. Building and Testing Your Own HUMAINE Agent</h3>
+        <h1 id="building-and-testing-your-own-humaine-agent">4. Building and Testing Your Own HUMAINE Agent</h1>
         <h2 id="building-your-agent">Building your agent</h2>
         <p>In order to build your own agent, you must implement it as a service. That service must support</p>
         <p>the following APIs, which are called on your agent by the Environment Orchestrator in order to inform your agent about important events and messages that occur prior to or during a negotiation round:</p>
@@ -235,7 +231,7 @@
         <p>On the right side of the UI is a Utility section that informs the buyer about their utility function. This may be useful to look at during the warm-up period, as it assists the buyer in working out what will be their strategy, i.e. should they focus mainly on cakes or pancakes.</p>
         <p>When the active negotiation phase has ended, a Post-Round countdown will start, and a Save button will appear on the left-hand side, under “Can I Make ?…”. During the Post-Round period, the human buyer use the allocation check to experiment with various ways of allocating goods into cakes and pancakes with additives. When satisfied that the allocation maximizes the utility (and before then Post-Round period is over), the buyer should click on Save to let the system know how she wants to allocate her goods. This information will be used to calculate the buyer's profit, which appears in the top left-hand panel of the chat-ui at the end of the round.</p>
         <p>In the near future, it will be possible to use the chat UI to simulate another seller, but for the present the seller text box is not yet functional (at least not correctly functional!). For now, you need to run two seller agents, one or both of which could be the test agents supplied with the platform, or your own agents.</p>
-        <h3 id="appendix-a-utility-functions">Appendix A: Utility functions</h3>
+        <h1 id="appendix-a-utility-functions">Appendix A: Utility functions</h1>
         <h2 id="agent-utility-function-seller">Agent utility function (Seller)</h2>
         <p>When a seller agent completes an agreement to sell a bundle of goods {n1, n2, …, nG} for a price p, its utility is</p>
         <p>p - Sumg cg * ng,</p>
@@ -443,7 +439,7 @@
         </tr>
         </tbody>
         </table>
-        <h3 id="appendix-b-interaction-and-turn-taking-rules">Appendix B: Interaction and Turn-Taking Rules</h3>
+        <h1 id="appendix-b-interaction-and-turn-taking-rules">Appendix B: Interaction and Turn-Taking Rules</h1>
         <p>Here are the interaction rules that are enforced by the system (specifically, the environment orchestrator). These rules determine whether or not a message sent by a given party is blocked, or broadcast to the other agents in the system (and to the human, by rendering the message through the avatar). Aspects of the rules that depend on absolute or relative timing make use of a timestamp that is assigned to each message at the moment it is received by the environment orchestrator’s /relayMessage API.</p>
         <p>An agent can tell whether its message has been broadcast or blocked by two means. First, when its message is broadcast, it receives a copy of that message. Second, when its message is rejected, its /receiveRejection API is called by the system.</p>
         <p><strong>R0</strong>: A message from a human is blocked if it occurs less than 5 seconds after the previous human utterance.</p>
@@ -515,7 +511,7 @@
         <p><b style="word-space:2em">   </b> Agent 1 (A1): I can give you a good price on 2 eggs, but first I think you might like to hear a few verses of Jabberwocky by Lewis Carroll, which is my favorite poem: “’Twas brillig, and the slithy toves Did gyre and gimble in the wabe: All mimsy were the borogoves And the mome raths outgrabe. ‘Beware the Jabberwock, my son! The jaws that bite, the claws that catch! Beware the Jubjub bird, and shun The frumious Bandersnatch!” He took his vorpal sword in hand; Long time the manxome foe he sought— So rested he by the Tumtum tree And stood awhile in thought. And, as in uffish thought he stood The Jabberwock, with eyes of flame, Came whiffling…” Oh wait, where was I? Oh yes – I can give you 2 eggs for 4.50 dollars. [<strong>BLOCKED</strong>]</p>
         <p>Agent A1’s message would be blocked according to rule R4, as it exceeds the 100-word limit.</p>
         <p>While we do not require that developers build these rules into their agents, we strongly advise developers to design agents with an awareness of these rules so as to avoid unanticipated message rejections during the competition.</p>
-        <h3 id="appendix-c-sample-code-and-api-details">Appendix C: Sample Code and API details</h3>
+        <h1 id="appendix-c-sample-code-and-api-details">Appendix C: Sample Code and API details</h1>
         <p>Sample code with detailed READMEs can be found here: <a href="https://github.com/humaine-anac/">https://github.com/humaine-anac/</a></p>
         <p>As outlined in Section 4, there are 5 APIs that agents must support:</p>
         <ul>
@@ -719,7 +715,7 @@
             ]
         }</code></pre>
         <p>The allResponses portion of the JSON summarizes responses from the other entities to whom the message has been relayed; there is little harm in ignoring this information.</p>
-        <h3 id="appendix-d-guide-for-human-negotiators">Appendix D: Guide for Human Negotiators</h3>
+        <h1 id="appendix-d-guide-for-human-negotiators">Appendix D: Guide for Human Negotiators</h1>
         <p>The following guide is designed for humans who participate in the HUMAINE competition as buyers.</p>
         <h2 id="introduction-1">Introduction</h2>
         <p>Welcome to HUMAINE!</p>
@@ -783,7 +779,7 @@
         <p>Just below the Ingredients section, in the bottom middle, is a section where the latest outstanding offers from the two sellers are rendered into a simple table. There are none in this screenshot because the round has ended.</p>
         <p>When the active negotiation phase has ended, a Post-Round countdown will start, and a Save button will appear on the left-hand side, under “Can I Make ?…”. During the Post-Round period, you can use the allocation check to experiment with various ways of allocating goods into cakes and pancakes, possibly with chocolate, vanilla or blueberry additives. You must be able to make an integer number of cakes or pancake batches; extra leftover ingredients that are not enough to make another cake or pancake batch will be worth nothing. For example, if you bake 3 cakes and still have one egg left, that one egg would be worth nothing, but of course you would receive credit for the cakes that were made from other eggs that you purchased.</p>
         <p>When you are satisfied with your allocation, click on Save to let the system know how you want to allocate your goods. This information will be used to calculate your profit. Make sure that you save your allocation before the timer gets to zero; otherwise you will receive no credit for the goods you have purchased. You can click the Save button multiple times; only the last Save before the Post-Round phase has expired will count.</p>
-        <h3 id="appendix-e-competition-manager">Appendix E: Competition Manager</h3>
+        <h1 id="appendix-e-competition-manager">Appendix E: Competition Manager</h1>
         <p>The competition manager is used to run multiple rounds of the competition. Agent developers will not interact with it directly, as all of their messages will be exchanged with a service called the environment orchestrator. Nonetheless, we include a brief description of the Competition Manager for the sake of completeness.</p>
         <p>The Competition Manager UI is used by the tournament master to set up a competition among multiple humans and agents. It calls the utility generator service to generate several random utility functions for buyers and sellers and stores them. It determines the trio of contestants (one buyer and two sellers) that will negotiate in each round and assigns the utility functions to them using permutation in such a manner as to ensure fairness to the greatest possible extent. All pairs of seller agents meet an even number of times, such that if one round A1 uses utility function u1 and A2 uses utility function u2, then the other time they meet A1 will use u2 and A2 will use u1. During the course of the competition, the system strives for fairness among humans by giving them the same set of buyer utility functions (permuted randomly).</p>
         <p>Here is the UI that allows the tournament master to identify the contestants:</p>
@@ -791,7 +787,10 @@
         <img src="FigE1.jpg" alt="" /><figcaption>FigE1</figcaption>
         </figure>
         <p>Here is the UI that allows the tournament master to see which agent will use which utility function in which round:</p>
-        <p><img src="FigE1.jpg" alt="FigE2" /> # Of course, ng may be 0 for one or more goods.</p>
+        <figure>
+        <img src="FigE1.jpg" alt="" /><figcaption>FigE2</figcaption>
+        </figure>
+        <p>Of course, n_g may be 0 for one or more goods.</p>
     </div>
 
 </body>
