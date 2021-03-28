@@ -59,7 +59,7 @@ The seller&#39;s utility function is expressed in terms of a unit cost c_g for e
 - Flour (unit: cup)
 - Chocolate (unit: ounce)
 - Vanilla (unit: teaspoon)
-- Blueberries (unit: packe
+- Blueberries (unit: pack)
 
 When an agent sells a bundle {n_egg, n_milk, n_sugar, ...} consisting of n_g items of good g for a price p, the agent&#39;s utility can be computed as
 
